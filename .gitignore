@@ -1,0 +1,41 @@
+# Environment
+.env
+*.env
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+.eggs/
+*.egg
+venv/
+.venv/
+env/
+ENV/
+pip-*.txt
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+
+# IDE
+.vscode/settings.json
+.idea/
+*.iml
+*.swp
+*.swo
+.DS_Store
+
+# Logs
+*.log
+logs/
+
+# Memory files that are too large or contain sensitive data
+# (the memory/ directory itself IS committed — only exclude specific patterns)
+memory/*.bak
