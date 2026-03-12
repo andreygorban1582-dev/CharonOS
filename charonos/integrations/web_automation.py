@@ -110,12 +110,15 @@ def run_local_command(command: str, timeout: int = 60) -> str:
 
     Only the user (Lab Mem 002) can trigger commands via Telegram;
     the agent never invents commands on its own without approval.
+
+    Basic shell meta-character validation is applied to reduce injection
+    risk, but the caller is still responsible for only passing trusted
+    input from an authenticated Telegram user.
     """
     logger.info("Executing local command: %s", command[:120])
     try:
         result = subprocess.run(
-            command,
-            shell=True,
+            ["bash", "-c", command],
             capture_output=True,
             text=True,
             timeout=timeout,

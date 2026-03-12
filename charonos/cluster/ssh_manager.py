@@ -91,7 +91,11 @@ class SSHClusterManager:
             raise ValueError(f"Unknown host: {host}")
 
         client = paramiko.SSHClient()
-        client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+        client.load_system_host_keys()
+        # Accept unknown hosts but log a warning (cluster nodes are
+        # typically ephemeral codespace instances without pre-seeded
+        # known_hosts entries).
+        client.set_missing_host_key_policy(paramiko.WarningPolicy())
         connect_kwargs: dict = {
             "hostname": node.host,
             "port": node.port,

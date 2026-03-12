@@ -52,7 +52,7 @@ class DeepSeekConfig(BaseModel):
     email: str = Field(default="")
     password: str = Field(default="")
     api_key: str = Field(default="")
-    base_url: str = Field(default="https://api.deepseek.com/v1")
+    base_url: str = Field(default="https://api.deepseek.com")
 
     @property
     def is_configured(self) -> bool:
