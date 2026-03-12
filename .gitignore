@@ -22,3 +22,4 @@ htmlcov/
 *.db
 data/
 ssh_keys/
+.pytest_cache/

@@ -1,0 +1,24 @@
+{
+  "name": "CharonOS Agent",
+  "image": "mcr.microsoft.com/devcontainers/python:3.12",
+  "postCreateCommand": "pip install -e '.[dev]'",
+  "postStartCommand": "nohup python -m scripts.start_agent > /tmp/charonos.log 2>&1 &",
+  "customizations": {
+    "vscode": {
+      "extensions": ["ms-python.python"],
+      "settings": {
+        "python.defaultInterpreterPath": "/usr/local/bin/python"
+      }
+    }
+  },
+  "remoteEnv": {
+    "CHARON_TELEGRAM_BOT_TOKEN": "${localEnv:CHARON_TELEGRAM_BOT_TOKEN}",
+    "CHARON_TELEGRAM_CHAT_ID": "${localEnv:CHARON_TELEGRAM_CHAT_ID}",
+    "CHARON_OPENROUTER_API_KEY": "${localEnv:CHARON_OPENROUTER_API_KEY}",
+    "CHARON_DEEPSEEK_API_KEY": "${localEnv:CHARON_DEEPSEEK_API_KEY}",
+    "CHARON_DEEPSEEK_EMAIL": "${localEnv:CHARON_DEEPSEEK_EMAIL}",
+    "CHARON_DEEPSEEK_PASSWORD": "${localEnv:CHARON_DEEPSEEK_PASSWORD}",
+    "CHARON_EXTRA_API_KEYS": "${localEnv:CHARON_EXTRA_API_KEYS}",
+    "CHARON_EXTRA_EMAILS": "${localEnv:CHARON_EXTRA_EMAILS}"
+  }
+}
