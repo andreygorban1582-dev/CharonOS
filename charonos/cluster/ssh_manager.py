@@ -34,11 +34,27 @@ class SSHNode:
 
 
 class SSHClusterManager:
-    """Manage a dynamic cluster of SSH-accessible compute nodes."""
+    """Manage a dynamic cluster of SSH-accessible compute nodes.
 
-    def __init__(self, key_dir: str = "~/.ssh") -> None:
+    Parameters
+    ----------
+    key_dir : str
+        Directory to scan for SSH private keys.
+    accept_unknown_hosts : bool
+        When *True*, unknown host keys are accepted with a logged
+        warning (suitable for ephemeral codespace nodes).  When
+        *False* (the default), connections to hosts whose keys are
+        not in ``known_hosts`` are rejected.
+    """
+
+    def __init__(
+        self,
+        key_dir: str = "~/.ssh",
+        accept_unknown_hosts: bool = False,
+    ) -> None:
         self._nodes: dict[str, SSHNode] = {}
         self._key_dir = os.path.expanduser(key_dir)
+        self._accept_unknown_hosts = accept_unknown_hosts
 
     # ------------------------------------------------------------------
     # Node management
@@ -92,10 +108,12 @@ class SSHClusterManager:
 
         client = paramiko.SSHClient()
         client.load_system_host_keys()
-        # Accept unknown hosts but log a warning (cluster nodes are
-        # typically ephemeral codespace instances without pre-seeded
-        # known_hosts entries).
-        client.set_missing_host_key_policy(paramiko.WarningPolicy())
+        if self._accept_unknown_hosts:
+            # Ephemeral codespace nodes may not be in known_hosts.
+            # Only enabled when the user explicitly opts in.
+            client.set_missing_host_key_policy(paramiko.WarningPolicy())
+        else:
+            client.set_missing_host_key_policy(paramiko.RejectPolicy())
         connect_kwargs: dict = {
             "hostname": node.host,
             "port": node.port,
