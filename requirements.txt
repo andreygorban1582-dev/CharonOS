@@ -1,0 +1,9 @@
+SpeechRecognition==3.10.0
+pyttsx3==2.90
+gTTS==2.4.0
+pygame==2.5.0
+pyaudio==0.2.11
+python-telegram-bot==20.7
+requests==2.31.0
+python-dotenv==1.0.0
+Pillow==10.0.0
